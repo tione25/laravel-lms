@@ -41,7 +41,7 @@ jobs:
       # deploy
       - name: Deploy Backend
         env:
-          SSH_PRIVATE_KEY: ${{ secrets.BACKEND_SSH_PRIVATE_KEY2 }}
+          SSH_PRIVATE_KEY: ${{ secrets.BACKEND_SSH_PRIVATE_KEY }}
           SERVER_USER: root
           BACKEND_SERVER_IP: 204.48.31.64
         run: |

@@ -38,6 +38,7 @@ jobs:
             --exclude=tests \
             --exclude=storage/logs/* \
             *
+      # deploy
       - name: Deploy Backend
         env:
           SSH_PRIVATE_KEY: ${{ secrets.BACKEND_SSH_PRIVATE_KEY }}

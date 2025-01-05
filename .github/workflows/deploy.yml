@@ -38,14 +38,13 @@ jobs:
             --exclude=tests \
             --exclude=storage/logs/* \
             *
-      # deploy
+      # deployy
       - name: Deploy Backend
         env:
           SSH_PRIVATE_KEY: ${{ secrets.BACKEND_SSH_PRIVATE_KEY }}
           SERVER_USER: root
           BACKEND_SERVER_IP: 204.48.31.64
         run: |
-          echo "$SSH_PRIVATE_KEY" | head -n 10
           mkdir -p ~/.ssh && chmod 700 ~/.ssh
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
           echo "Host *" > ~/.ssh/config

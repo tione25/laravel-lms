@@ -18,7 +18,8 @@ interface MediaProps {
 
 const Media = ({ register, errors, course }: MediaProps) => {
   let url = import.meta.env.VITE_API_BASE_URL;
-  url = url.replace('api', 'storage');
+  url = url.replace(/\/api\/$/, `/storage/`);
+
   const [image, setImage] = useState(
     url + course.preview_image
   );

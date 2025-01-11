@@ -18,7 +18,7 @@ interface MediaProps {
 
 const Media = ({ register, errors, course }: MediaProps) => {
   const [image, setImage] = useState(
-    "https://sealms-api.levelcoding.com/storage/" + course.preview_image
+    import.meta.env.VITE_API_BASE_URL + course.preview_image
   );
   const inputRef = useRef<HTMLInputElement | null>(null);
   const { ref, onChange, ...rest } = register('preview_image_file')

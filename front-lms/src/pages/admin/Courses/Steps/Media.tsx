@@ -20,7 +20,7 @@ const Media = ({ register, errors, course }: MediaProps) => {
   let url = import.meta.env.VITE_API_BASE_URL;
   url = url.replace('api', 'storage');
   const [image, setImage] = useState(
-    import.meta.env.VITE_API_BASE_URL + course.preview_image
+    url + course.preview_image
   );
   const inputRef = useRef<HTMLInputElement | null>(null);
   const { ref, onChange, ...rest } = register('preview_image_file')

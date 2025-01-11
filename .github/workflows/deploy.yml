@@ -46,7 +46,7 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.BACKEND_SSH_PRIVATE_KEY }}
 
-      # Deploy artifact
+      # Deploy backend
       - name: Deploy Backend
         env:
           SERVER_USER: ${{ secrets.BACKEND_USER }}
@@ -74,8 +74,6 @@ jobs:
           scp ./front-lms/front-dist.tar.gz $FRONTEND_SERVER_USER@$FRONTEND_SERVER_IP:/tmp
           ssh $FRONTEND_SERVER_USER@$FRONTEND_SERVER_IP << 'EOF'
           echo "Extracting frontend application files"
-          cd /home
-          mkdir test
-          cd test
+          cd /home/coursecasts/react/dist/
           tar -xzf /tmp/front-dist.tar.gz -C .
           EOF

@@ -74,6 +74,6 @@ jobs:
           scp ./front-lms/front-dist.tar.gz $FRONTEND_SERVER_USER@$FRONTEND_SERVER_IP:/tmp
           ssh $FRONTEND_SERVER_USER@$FRONTEND_SERVER_IP << 'EOF'
           echo "Extracting frontend application files"
-          cd /home/coursecasts/react/dist/
+          cd /home/coursecasts/sealms/front-lms/dist/
           tar -xzf /tmp/front-dist.tar.gz -C .
           EOF

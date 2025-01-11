@@ -57,8 +57,6 @@ jobs:
           scp ./back-lms/back.tar.gz $SERVER_USER@$BACKEND_SERVER_IP:/tmp
           ssh $SERVER_USER@$BACKEND_SERVER_IP << 'EOF'
           echo "Extracting application files"
-          cd /home
-          mkdir -p test
-          cd test
+          cd /home/api.coursecasts.com/public_html/back-lms
           tar -xzf /tmp/back.tar.gz -C .
           EOF

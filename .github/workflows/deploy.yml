@@ -17,8 +17,9 @@ jobs:
       - name: Build Frontend
         working-directory: front-lms
         run: |
-          npm install
+          npm ci
           npm run build
+          tar -czf front-dist.tar.gz -C dist .
 
       # prepare PHP 8.1
       - name: Configure PHP 8.1
@@ -59,4 +60,22 @@ jobs:
           echo "Extracting application files"
           cd /home/api.coursecasts.com/public_html/back-lms
           tar -xzf /tmp/back.tar.gz -C .
+          EOF
+
+      # Deploy Frontend
+      - name: Deploy Frontend
+        env:
+          FRONTEND_SERVER_USER: ${{ secrets.FRONTEND_USER }}
+          FRONTEND_SERVER_IP: ${{ secrets.FRONTEND_HOST }}
+        run: |
+          echo "Verifying SSH connection for frontend"
+          ssh -o StrictHostKeyChecking=no $FRONTEND_SERVER_USER@$FRONTEND_SERVER_IP "echo 'SSH connection successful'"
+          echo "Deploying frontend application"
+          scp ./front-lms/front-dist.tar.gz $FRONTEND_SERVER_USER@$FRONTEND_SERVER_IP:/tmp
+          ssh $FRONTEND_SERVER_USER@$FRONTEND_SERVER_IP << 'EOF'
+          echo "Extracting frontend application files"
+          cd /home
+          mkdir test
+          cd test
+          tar -xzf /tmp/front-dist.tar.gz -C .
           EOF

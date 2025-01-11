@@ -38,23 +38,25 @@ jobs:
             --exclude=tests \
             --exclude=storage/logs/* \
             *
-      # deploy
+
+      # Use webfactory/ssh-agent to set up SSH
+      - name: Start SSH Agent
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.BACKEND_SSH_PRIVATE_KEY }}
+
+      # Deploy artifact
       - name: Deploy Backend
         env:
-          SSH_PRIVATE_KEY: ${{ secrets.BACKEND_SSH_PRIVATE_KEY }}
-          SERVER_USER: root
-          BACKEND_SERVER_IP: 204.48.31.64
+          SERVER_USER: ${{ secrets.BACKEND_USER }}
+          BACKEND_SERVER_IP: ${{ secrets.BACKEND_HOST }}
         run: |
-          echo "Setting up SSH"
-          mkdir -p ~/.ssh && chmod 700 ~/.ssh
-          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
-          echo "Fetching host key"
-          ssh-keyscan -H $BACKEND_SERVER_IP >> ~/.ssh/known_hosts
           echo "Verifying SSH connection"
           ssh -o StrictHostKeyChecking=no $SERVER_USER@$BACKEND_SERVER_IP "echo 'SSH connection successful'"
           echo "Deploying application"
           scp ./back-lms/back.tar.gz $SERVER_USER@$BACKEND_SERVER_IP:/tmp
           ssh $SERVER_USER@$BACKEND_SERVER_IP << 'EOF'
+          echo "Extracting application files"
           cd /home
           mkdir -p test
           cd test
